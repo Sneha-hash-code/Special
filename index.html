@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>For Angrez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Persistent universe canvas, lives behind everything -->
+<canvas id="universe"></canvas>
+
+<!-- reduced motion / audio note for screen readers -->
+<div class="sr-only" aria-live="polite" id="srAnnounce"></div>
+
+<!-- ============ 0. OPENING ============ -->
+<section id="opening" class="scene" aria-label="Opening">
+  <div class="opening-lines">
+    <p class="line" data-line="1">Some stories are not meant to be forgotten&hellip;</p>
+    <p class="line" data-line="2">Some people become memories&hellip;</p>
+    <p class="line" data-line="3">And some become a whole universe.</p>
+    <p class="line line-final" data-line="4">This universe is for my<span class="name">ANGREZ</span>.</p>
+  </div>
+  <button id="enterBtn" class="enter-btn" type="button">
+    <span>Enter My Universe</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</section>
+
+<!-- ============ MAIN EXPERIENCE ============ -->
+<main id="main" hidden>
+
+  <!-- audio control -->
+  <div class="audio-control" id="audioControl">
+    <button id="audioToggle" type="button" aria-label="Play background music" aria-pressed="false">
+      <svg class="icon-note" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 12.5a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0Zm0 0V3.2L13 2v8.3M13 10.3a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0Z" stroke="currentColor" stroke-width="1.2"/></svg>
+    </button>
+    <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volume">
+    <audio id="bgAudio" loop preload="none">
+      <source src="assets/audio/background.mp3" type="audio/mpeg">
+      <source src="assets/audio/WhatsApp Audio 2026-09-13 at 10.40.02 PM.mpeg" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- 1. HERO -->
+  <section id="hero" class="scene chapter" aria-label="Birthday reveal">
+    <p class="eyebrow-quiet">for the person my story keeps returning to</p>
+    <h1 class="hero-title">Happy Birthday,<br><span class="name-glow">Angrez</span> <span class="heart">&#10084;</span></h1>
+    <p class="hero-sub">Today isn&rsquo;t just your birthday&hellip;</p>
+    <p class="hero-sub hero-sub-2">It&rsquo;s a celebration of the person who became such a beautiful part of my story.</p>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- 2. CHAPTER 01 — THE BEGINNING -->
+  <section id="ch-01" class="chapter reveal-chapter" data-chapter="01">
+    <p class="chapter-mark">Chapter 01</p>
+    <h2 class="chapter-title">The Beginning</h2>
+    <div class="chapter-body">
+      <p>Somewhere around Class 4 or 5, two kids sat in the same school without ever once finding each other.</p>
+      <p>Years later, both of us ended up in Birgunj &mdash; still strangers, still walking past a story that hadn&rsquo;t started yet.</p>
+      <p>It took until Class 11, the same college, for our paths to actually cross. As if the story had been waiting for the right chapter to begin. No dramatic beginning. No warning. No idea that something ordinary was about to become something unforgettable.
+
+        Looking back now,
+          I think that was one of those tiny moments
+          life quietly changes everything.
+      </p>
+      <p class="chapter-whisper">Some beginnings take the long way. This one was worth the wait.</p>
+    </div>
+  </section>
+
+  <!-- 3. CHAPTER 02 — OUR MEMORIES (PHOTOS) -->
+  <section id="ch-02" class="chapter reveal-chapter" data-chapter="02">
+    <p class="chapter-mark">Chapter 02</p>
+    <h2 class="chapter-title">Our Memories</h2>
+    <p class="chapter-intro">Thirty-one moments of our story.</p>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </section>
+
+  <!-- Fullscreen photo viewer -->
+  <div id="photoViewer" class="viewer" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="viewer-close" id="viewerClose" aria-label="Close">&times;</button>
+    <button class="viewer-nav viewer-prev" id="viewerPrev" aria-label="Previous photo">&#8249;</button>
+    <div class="viewer-content">
+      <img id="viewerImg" src="" alt="">
+      <div id="viewerPlaceholder" class="viewer-placeholder" hidden>Photo not available</div>
+      <p id="viewerCaption" class="viewer-caption"></p>
+    </div>
+    <button class="viewer-nav viewer-next" id="viewerNext" aria-label="Next photo">&#8250;</button>
+  </div>
+
+  <!-- 4. CHAPTER 03 — MOMENTS I KEEP (VIDEOS) -->
+  <section id="ch-03" class="chapter reveal-chapter" data-chapter="03">
+    <p class="chapter-mark">Chapter 03</p>
+    <h2 class="chapter-title">Moments I Keep</h2>
+    <p class="chapter-intro">Fourteen moments I never want to forget.</p>
+    <div id="videoGrid" class="video-grid"></div>
+  </section>
+
+  <!-- 5. CHAPTER 04 — THINGS I WANT YOU TO KNOW (ENVELOPES) -->
+  <section id="ch-04" class="chapter reveal-chapter" data-chapter="04">
+    <p class="chapter-mark">Chapter 04</p>
+    <h2 class="chapter-title">Things I Want You To Know</h2>
+    <p class="chapter-intro">Ten envelopes. Open them one at a time.</p>
+    <div id="envelopeGrid" class="envelope-grid"></div>
+  </section>
+
+  <!-- 6. CHAPTER 05 — CONSTELLATION -->
+  <section id="ch-05" class="chapter reveal-chapter" data-chapter="05">
+    <p class="chapter-mark">Chapter 05</p>
+    <h2 class="chapter-title">A Universe of Little Things</h2>
+    <p class="chapter-intro">Find the stars. Some are hiding.</p>
+    <div id="constellationWrap" class="constellation-wrap">
+      <canvas id="constellation"></canvas>
+      <p id="constellationMsg" class="constellation-msg" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 7. CHAPTER 06 — QUIZ -->
+  <section id="ch-06" class="chapter reveal-chapter" data-chapter="06">
+    <p class="chapter-mark">Chapter 06</p>
+    <h2 class="chapter-title">How Well Do You Know Our Story?</h2>
+    <div id="quizWrap" class="quiz-wrap">
+      <div class="quiz-progress"><div id="quizProgressBar" class="quiz-progress-bar"></div></div>
+      <div id="quizBody" class="quiz-body"></div>
+    </div>
+  </section>
+
+  <!-- 8. CHAPTER 07 — CAKE -->
+  <section id="ch-07" class="chapter reveal-chapter" data-chapter="07">
+    <p class="chapter-mark">Chapter 07</p>
+    <h2 class="chapter-title">Make A Wish</h2>
+    <p id="cakePrompt" class="cake-prompt">Before you continue&hellip;</p>
+    <div class="cake-scene">
+      <div class="cake" id="cakeEl">
+        <div class="candle">
+          <div class="flame" id="flameEl"></div>
+          <div class="wick"></div>
+        </div>
+        <div class="cake-top"></div>
+        <div class="cake-drip"></div>
+        <div class="cake-tier"></div>
+        <div class="cake-plate"></div>
+      </div>
+    </div>
+    <div class="cake-controls">
+      <button id="blowBtn" class="blow-btn" type="button">Blow the Candle</button>
+      <p id="micHint" class="mic-hint">or allow your microphone and actually blow &mdash; it works.</p>
+    </div>
+  </section>
+
+  <!-- 9. CHAPTER 08 — HIDDEN LETTER -->
+  <section id="ch-08" class="chapter reveal-chapter" data-chapter="08" hidden>
+    <p class="chapter-mark">Chapter 08</p>
+    <h2 class="chapter-title">One Last Thing&hellip;</h2>
+    <p class="chapter-intro" id="letterIntro">There was one more thing I wanted you to see&hellip;</p>
+    <div class="letter-wrap">
+      <div class="envelope-big" id="envelopeBig">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body"></div>
+        <p class="envelope-tap">tap to open</p>
+      </div>
+      <div class="letter-paper" id="letterPaper" hidden>
+        <p>My Angrez,</p>
+        <p>I don't really know how to begin this letter,
+            because every beginning feels too small
+            for everything I want to say.</p>
+        <p>Maybe I should begin with the fact that
+            we were once just two people in the same school,
+            walking past each other without knowing
+            that one day our lives would somehow find
+            their way toward each other.
+          Or maybe I should begin with Class 11.
+            The year when you stopped being
+            just another person in the world
+            and slowly became someone
+            I couldn't imagine my days without.
+</p>
+        <p>I think about our walks sometimes.
+            Kathmandu.
+            Lalitpur.
+            The random conversations.
+            The silly moments.
+            The days that didn't seem extraordinary
+            while we were living them.Funny how life works.
+            We never knew we were making memories
+            while we were making them.</p>
+            <p>
+            And now you're far away.
+          </p>
+          <p>
+            Sometimes I wish I could shrink the distance
+            into something I could hold in my hand
+            and simply throw away.
+          </p>
+
+          <p>
+            I wish time zones didn't exist.
+            I wish there wasn't an ocean between
+            “I miss you” and “I'm here.”
+          </p>
+
+          <p>
+            But even with all those miles,
+            somehow you still find your way
+            into the smallest parts of my day.
+          </p>
+
+          <p>
+            Something happens and I think,
+            <em>
+              “I need to tell you this. I LOVE YOU”
+            </em>
+          </p>
+          <p>
+            I see something funny and wonder
+            what your reaction would be.
+          </p>
+
+          <p>
+            I remember something from years ago
+            and suddenly I'm smiling at my screen
+            like an idiot.
+          </p>
+
+          <p>
+            And I think that's when I realized
+            how deeply you've become a part of my life.
+          </p>
+
+          <p>
+            Not loudly.
+            Not dramatically.
+            Just quietly...
+            in all the little places.
+          </p>
+
+          <p>
+            I want you to know that I'm proud of you.
+            Proud of the person you're becoming.
+            Proud of the dreams you're chasing.
+            Proud of every difficult step
+            you take even when nobody sees it.
+          </p>
+
+          <p>
+            And on your birthday,
+            more than anything,
+            I hope life is kind to you.
+          </p>
+
+          <p>
+            I hope you get the future
+            you've worked so hard for.
+          </p>
+
+          <p>
+            I hope you laugh until your stomach hurts.
+            I hope you find peace in places
+            you never expected.
+            I hope you meet people who remind you
+            how wonderful you are.
+          </p>
+
+          <p>
+            And I hope that somewhere along the way,
+            life gives us another ordinary day together.
+          </p>
+          <p>No ocean.
+            No time-zone math.
+            No “I wish you were here.”</p>
+             <p>
+            Just you.
+            Just me.
+            And another completely ordinary day
+            that somehow becomes one of my favorite memories.
+          </p>
+          <p>
+            If I could give you one thing today,
+            it wouldn't be a gift.
+          </p>
+
+          <p>
+            It would be the ability to see yourself
+            through the eyes of the people who love you.
+          </p>
+
+          <p>
+            Maybe then you'd understand
+            just how special you are.
+          </p>
+
+          <p>
+            Thank you for becoming
+            one of the most beautiful chapters
+            of my life.
+          </p>
+
+          <p>
+            And if this story has taught me anything,
+            it's that some people enter your life
+            so naturally that you don't realize
+            how much they've changed it
+            until you imagine it without them.
+          </p>
+
+          <p>
+            I don't want to imagine mine without you.
+          </p>
+          <p>
+            And maybe one day,
+            when we're older,
+            we'll look back at all of this
+            and laugh about how far away
+            we once had to be.
+          </p>
+
+          <p>
+            Because one day,
+            I don't want there to be any distance left
+            between us.
+          </p>
+
+          <p class="letter-final">
+            Happy Birthday, my Angrez. ♡
+          </p>
+
+        Until then...
+            <br />
+            keep chasing your dreams.
+            <br />
+            I'll be cheering from here.
+          </p>
+        <p class="letter-sign">Always,<br>Sneha</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. CHAPTER 09 — POEM -->
+  <section id="ch-09" class="chapter reveal-chapter" data-chapter="09" hidden>
+    <p class="chapter-mark">Chapter 09</p>
+    <h2 class="chapter-title">For You</h2>
+    <div id="poemBody" class="poem-body"></div>
+  </section>
+
+  <!-- 11. FINAL CHAPTER -->
+  <section id="ch-final" class="scene chapter final-chapter" hidden>
+    <canvas id="heartCanvas"></canvas>
+    <div class="final-text">
+      <h2 class="final-title">Happy Birthday, Angrez.</h2>
+      <p class="final-sub">Wherever life takes us, I hope you always remember how special you are.</p>
+      <button id="replayBtn" class="enter-btn" type="button">Replay Our Story</button>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
